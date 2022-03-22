@@ -27,6 +27,8 @@ struct prefetcher *null_prefetcher_new()
 // ============================================================================
 // TODO feel free to create additional structs/enums as necessary
 
+//checks
+
 uint32_t sequential_handle_mem_access(struct prefetcher *prefetcher,
                                       struct cache_system *cache_system, uint32_t address,
                                       bool is_miss)
