@@ -5,6 +5,8 @@
 
 #include "prefetchers.h"
 
+#include <stdio.h>
+
 // Null Prefetcher
 // ============================================================================
 uint32_t null_handle_mem_access(struct prefetcher *prefetcher, struct cache_system *cache_system,
@@ -27,20 +29,62 @@ struct prefetcher *null_prefetcher_new()
 // ============================================================================
 // TODO feel free to create additional structs/enums as necessary
 
-//checks
+struct metadata
+{
+    
+    uint32_t amount;
+   
+};
+int test = 0;
+int checker =0;
 
 uint32_t sequential_handle_mem_access(struct prefetcher *prefetcher,
                                       struct cache_system *cache_system, uint32_t address,
                                       bool is_miss)
 {
     // TODO: Return the number of lines that were prefetched.
-    return 0;
+
+    // Number of lines is passed into the input as N
+for(int i=0;i<((struct metadata *) prefetcher ->data)->amount;i++){
+  //uint32_t temp = address + cache_system->line_size *;
+  address += cache_system->line_size;
+  cache_system_mem_access(cache_system,  address, 'r', true);
+}
+
+            
+
+    /*if(is_miss){
+        printf("test: %i value: %i %i\n",test ,((struct metadata *) prefetcher ->data)->amount,checker);
+     test +=  ((struct metadata *) prefetcher ->data)->amount;
+        checker++;
+       
+        
+        return test;
+
+    }else{
+        
+        checker++;
+        printf("check: %i \n",checker);
+         return 0;
+    }*/
+    
+    //return test;
+    // Loop thorugh each block determined by N
+    
+    // Access the other cache blocks
+   
+
+
+    return ((struct metadata *) prefetcher ->data)->amount;
 }
 
 void sequential_cleanup(struct prefetcher *prefetcher)
 {
     // TODO cleanup any additional memory that you allocated in the
-    // sequential_prefetcher_new function.
+      //free ((( struct metadata *) prefetcher -> data)->amount);
+      free ((( struct metadata *) prefetcher -> data));
+
+
 }
 
 struct prefetcher *sequential_prefetcher_new(uint32_t prefetch_amount)
@@ -51,6 +95,12 @@ struct prefetcher *sequential_prefetcher_new(uint32_t prefetch_amount)
 
     // TODO allocate any additional memory needed to store metadata here and
     // assign to sequential_prefetcher->data.
+
+    struct metadata *information = malloc(sizeof(struct metadata));
+
+    information->amount = prefetch_amount;
+
+    sequential_prefetcher->data = information;
 
     return sequential_prefetcher;
 }
