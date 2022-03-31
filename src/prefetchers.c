@@ -112,9 +112,11 @@ uint32_t adjacent_handle_mem_access(struct prefetcher *prefetcher,
                                     bool is_miss)
 {
     // TODO perform the necessary prefetches for the adjacent strategy.
+    address += cache_system->line_size;
+  cache_system_mem_access(cache_system,  address, 'r', true);
 
     // TODO: Return the number of lines that were prefetched.
-    return 0;
+    return 1;
 }
 
 void adjacent_cleanup(struct prefetcher *prefetcher)
